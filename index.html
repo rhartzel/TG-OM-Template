@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tide Gate O&M Plan Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Prevent full-page scrolling */
+        }
+        
+        /* Form Styles */
+        .form-input, .form-textarea, .form-select, .form-multiselect, .form-checkbox, .form-radio {
+            display: block;
+            width: 100%;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            background-color: #ffffff;
+            border-width: 1px;
+            border-color: #D1D5DB;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            outline: none;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 1px #4F46E5;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+        .form-checkbox, .form-radio {
+            width: 1rem;
+            height: 1rem;
+            color: #4F46E5;
+            border-color: #D1D5DB;
+            border-radius: 0.25rem;
+        }
+        .form-radio {
+            border-radius: 9999px;
+        }
+        .form-checkbox:focus, .form-radio:focus {
+            ring-color: #4F46E5;
+        }
+
+        /* Button Styles */
+        .primary-btn {
+            display: inline-flex;
+            justify-content: center;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-width: 1px;
+            border-color: transparent;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            color: #ffffff;
+            background-color: #4F46E5;
+        }
+        .primary-btn:hover {
+            background-color: #4338CA;
+        }
+        .primary-btn:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 2px #4F46E5, 0 0 0 2px #ffffff;
+        }
+        
+        .secondary-btn {
+            display: inline-flex;
+            justify-content: center;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-width: 1px;
+            border-color: #D1D5DB;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            color: #374151;
+            background-color: #ffffff;
+        }
+        .secondary-btn:hover {
+            background-color: #F9FAFB;
+        }
+
+        .danger-btn {
+            display: inline-flex;
+            justify-content: center;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            border-width: 1px;
+            border-color: transparent;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            color: #ffffff;
+            background-color: #DC2626;
+        }
+        .danger-btn:hover {
+            background-color: #B91C1C;
+        }
+
+        /* Table Styles */
+        .table-header {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            text-align: left;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            font-weight: 500;
+            color: #6B7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background-color: #F9FAFB;
+        }
+        .table-cell {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            white-space: nowrap;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            color: #111827;
+        }
+
+        /* Checklist Styles */
+        .checklist-category {
+            background-color: #F9FAFB;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            margin-bottom: 1rem;
+        }
+        .checklist-header {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+        .checklist-item label {
+            margin-left: 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            color: #374151;
+        }
+        
+        /* * --- PRINT STYLES --- 
+         * This is the definitive print logic.
+         */
+        @media print {
+            body {
+                font-family: 'Times New Roman', Times, serif;
+                background: #fff;
+                overflow: visible !important;
+                height: auto !important;
+            }
+            .non-printable {
+                display: none !important;
+            }
+            #app-container {
+                display: block !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            #sidebar, #header {
+                display: none !important;
+            }
+            #main-content {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: visible !important;
+                height: auto !important;
+            }
+            
+            /* Logic for printing REPORT */
+            body.printing-report #report-modal {
+                display: block !important;
+                visibility: visible !important;
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+            body.printing-report #report-modal-content {
+                display: block !important;
+                box-shadow: none !important;
+                border: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            /* Hide all app sections when printing report */
+            body.printing-report .content-section {
+                display: none !important;
+                visibility: hidden !important;
+            }
+
+            /* * Logic for printing CHECKLIST
+             * This is the NEW, explicit logic.
+             */
+            body.printing-checklist #main-content {
+                overflow: visible !important;
+                height: auto !important;
+            }
+            /* HIDE all non-checklist sections explicitly by ID */
+            body.printing-checklist #general-section,
+            body.printing-checklist #personnel-section,
+            body.printing-checklist #structure-section,
+            body.printing-checklist #sop-section,
+            body.printing-checklist #inspection-schedule-section,
+            body.printing-checklist #maintenance-section,
+            body.printing-checklist #eap-section,
+            body.printing-checklist #records-section,
+            body.printing-checklist #report-modal {
+                display: none !important;
+                visibility: hidden !important;
+            }
+            /* SHOW the checklist section explicitly */
+            body.printing-checklist #checklist-section {
+                display: block !important;
+                visibility: visible !important; 
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            
+            /* General print formatting */
+            h1, h2, h3, h4, h5, h6 {
+                page-break-after: avoid;
+            }
+            table {
+                page-break-inside: auto;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            thead {
+                display: table-header-group;
+            }
+            tfoot {
+                display: table-footer-group;
+            }
+            .page-break-before {
+                page-break-before: always;
+            }
+            .print-omit {
+                display: none !important;
+            }
+        }
+
+    </style>
+</head>
+<body class="h-full">
+    <div id="app-container" class="flex h-screen">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="w-64 bg-gray-800 text-white p-4 overflow-y-auto non-printable">
+            <h2 class="text-xl font-bold mb-6">O&M Plan Sections</h2>
+            <ul class="space-y-2">
+                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700 active-nav" onclick="showPage('general')">1.0 General Information</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('personnel')">2.0 Responsible Personnel</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('structure')">3.0 Structure Details</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('sop')">4.0 Operating Procedures</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('inspection-schedule')">5.0 Inspection Schedule</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('maintenance')">6.0 Routine Maintenance</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('eap')">7.0 Emergency Action Plan</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('records')">8.0 Record Keeping</a></li>
+                <li><hr class="border-gray-600 my-4"></li>
+                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('checklist')">Inspection Checklist</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main content area -->
+        <div id="main-content" class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header id="header" class="bg-white shadow-md p-4 flex justify-between items-center non-printable">
+                <h1 class="text-2xl font-bold text-gray-800">Tide Gate O&M Plan Developer</h1>
+                <div class="space-x-2">
+                    <button onclick="printChecklist()" class="secondary-btn">Print Checklist</button>
+                    <button onclick="showGenerateModal()" class="primary-btn bg-green-600 hover:bg-green-700 focus:ring-green-500">Generate O&M Plan</button>
+                </div>
+            </header>
+
+            <!-- Scrollable Content Area -->
+            <main class="flex-1 overflow-y-auto p-8 bg-gray-100">
+
+                <!-- 1.0 General Information -->
+                <section id="general-section" class="content-section bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">1.0 General Information</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="tideGateID" class="form-label">Tide Gate ID#</label>
+                            <input type="text" id="tideGateID" class="form-input" placeholder="e.g., Hingham-02">
+                        </div>
+                        <div>
+                            <label for="waterBody" class="form-label">Water Body</label>
+                            <input type="text" id="waterBody" class="form-input" placeholder="Name of river, estuary, etc.">
+                        </div>
+                        <div>
+                            <label for="town" class="form-label">Town</label>
+                            <input type="text" id="town" class="form-input">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="coordLong" class="form-label">Site Coordinates (Long)</label>
+                                <input type="text" id="coordLong" class="form-input" placeholder="Longitude">
+                            </div>
+                            <div>
+                                <label for="coordLat" class="form-label">Site Coordinates (Lat)</label>
+                                <input type="text" id="coordLat" class="form-input" placeholder="Latitude">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="operator" class="form-label">Operator</label>
+                            <input type="text" id="operator" class="form-input" placeholder="e.g., Town of Scituate DPW">
+                        </div>
+                        <div>
+                            <label for="owner" class="form-label">Owner (if different than Operator)</label>
+                            <input type="text" id="owner" class="form-input">
+                        </div>
+                        <div>
+                            <label for="omPlanVersion" class="form-label">O&M Plan Version</label>
+                            <input type="text" id="omPlanVersion" class="form-input" placeholder="e.g., v2.1 - 2025-11-07">
+                        </div>
+                        <div>
+                            <label for="planReviewDate" class="form-label">Next Plan Review Date</label>
+                            <input type="date" id="planReviewDate" class="form-input">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="siteAccess" class="form-label">Site Access Instructions</label>
+                            <textarea id="siteAccess" class="form-textarea" rows="3" placeholder="e.g., Park at [Address/Lot], access gate via 0.1-mile gravel path. Key for lockbox is [Code/Location])."></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="locusMap" class="form-label">Locus Map Description</label>
+                            <textarea id="locusMap" class="form-textarea" rows="2" placeholder="Map showing tide gate location, roads, and other key features. (Describe where to find this map, e.g., 'See Appendix B')"></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2.0 Responsible Personnel -->
+                <section id="personnel-section" class="content-section bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">2.0 Responsible Personnel / Contact Information</h2>
+                    
+                    <!-- Primary and Backup -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="border p-4 rounded-lg bg-gray-50">
+                            <h3 class="text-lg font-medium text-gray-900 mb-3">Primary O&M Lead</h3>
+                            <div class="space-y-4">
+                                <div><label class="form-label">Name:</label> <input type="text" id="primaryName" class="form-input"></div>
+                                <div><label class="form-label">Organization/Title:</label> <input type="text" id="primaryTitle" class="form-input"></div>
+                                <div><label class="form-label">Office Phone:</label> <input type="tel" id="primaryOfficePhone" class="form-input"></div>
+                                <div><label class="form-label">Mobile Phone:</label> <input type="tel" id="primaryMobilePhone" class="form-input"></div>
+                                <div><label class="form-label">Email:</label> <input type="email" id="primaryEmail" class="form-input"></div>
+                            </div>
+                        </div>
+                        <div class="border p-4 rounded-lg bg-gray-50">
+                            <h3 class="text-lg font-medium text-gray-900 mb-3">Backup O&M Contact</h3>
+                            <div class="space-y-4">
+                                <div><label class="form-label">Name:</label> <input type="text" id="backupName" class="form-input"></div>
+                                <div><label class="form-label">Organization/Title:</label> <input type="text" id="backupTitle" class="form-input"></div>
+                                <div><label class="form-label">Office Phone:</label> <input type="tel" id="backupOfficePhone" class="form-input"></div>
+                                <div><label class="form-label">Mobile Phone:</label> <input type="tel" id="backupMobilePhone" class="form-input"></div>
+                                <div><label class="form-label">Email:</label> <input type="email" id="backupEmail" class="form-input"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other Contacts Table -->
+                    <h3 class="text-lg font-medium text-gray-900 mb-3">Other Contacts (Emergency, Non-Emergency, Contractors)</h3>
+                    <div class="mb-4 p-4 border rounded-lg bg-gray-50">
+                        <h4 class="text-md font-medium text-gray-700 mb-2">Add New Contact</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" id="newContactType" class="form-input" placeholder="Type (e.g., Fire, Police, Contractor)">
+                            <input type="text" id="newContactName" class="form-input" placeholder="Contact Name / Service">
+                            <input type="text" id="newContactInfo" class="form-input" placeholder="Phone or Email">
+                        </div>
+                        <button onclick="addContact()" class="primary-btn mt-3">Add Contact</button>
+                    </div>
+                    
+                    <div class="overflow-x-auto rounded-lg shadow border">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="table-header">Contact Type</th>
+                                    <th class="table-header">Name / Service</th>
+                                    <th class="table-header">Contact Info</th>
+                                    <th class="table-header print-omit">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contactsTable" class="bg-white divide-y divide-gray-200">
+                                <!-- Default Contacts -->
+                                <tr data-id="contact-1">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Fire"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value=""></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="911"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('contact-1')">X</button></td>
+                                </tr>
+                                <tr data-id="contact-2">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Police"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value=""></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="911"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('contact-2')">X</button></td>
+                                </tr>
+                                <tr data-id="contact-3">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Hazmat"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value=""></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="911"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('contact-3')">X</button></td>
+                                </tr>
+                                <tr data-id="contact-4">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Engineering Support"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value=""></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value=""></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('contact-4')">X</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 3.0 Structure Details -->
+                <section id="structure-section" class="content-section bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">3.0 Tide Gate Structure/Design Details</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="gateType" class="form-label">Tide Gate Type</label>
+                            <input type="text" id="gateType" class="form-input" placeholder="e.g., Top-hinged Flap, Duckbill, SRT">
+                        </div>
+                        <div>
+                            <label for="numGates" class="form-label">Number of Gates</label>
+                            <input type="number" id="numGates" class="form-input" placeholder="Total number of gates">
+                        </div>
+                        <div>
+                            <label for="gateMaterial" class="form-label">Tide Gate Material(s)</label>
+                            <input type="text" id="gateMaterial" class="form-input" placeholder="e.g., HDPE, Cast Iron, Stainless Steel">
+                        </div>
+                        <div>
+                            <label for="culvertMaterial" class="form-label">Culvert / Headwall Material</label>
+                            <input type="text" id="culvertMaterial" class="form-input" placeholder="e.g., Reinforced Concrete, Corrugated Metal">
+                        </div>
+                        <div>
+                            <label for="gateDims" class="form-label">Gate Dimensions (per gate)</label>
+                            <input type="text" id="gateDims" class="form-input" placeholder="e.g., 1.2m x 1.2m or 4ft x 4ft">
+                        </div>
+                        <div>
+                            <label for="gatePurpose" class="form-label">Tide Gate Purpose</label>
+                            <input type="text" id="gatePurpose" class="form-input" placeholder="e.g., flood control, habitat restoration">
+                        </div>
+                        <div>
+                            <label for="invertInlet" class="form-label">Invert Elevation (Inlet)</label>
+                            <input type="text" id="invertInlet" class="form-input" placeholder="e.g., 2.5 ft NAVD88">
+                        </div>
+                        <div>
+                            <label for="invertOutlet" class="form-label">Invert Elevation (Outlet)</label>
+                            <input type="text" id="invertOutlet" class="form-input" placeholder="e.g., 2.3 ft NAVD88">
+                        </div>
+                        <div>
+                            <label for="installDate" class="form-label">Installation Date</label>
+                            <input type="date" id="installDate" class="form-input">
+                        </div>
+                        <div>
+                            <label for="manufacturer" class="form-label">Manufacturer/Model</label>
+                            <input type="text" id="manufacturer" class="form-input" placeholder="If known">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="otherInfo" class="form-label">Other Background Information</label>
+                            <textarea id="otherInfo" class="form-textarea" rows="3" placeholder="Other relevant design info, management challenges, adjacent ecology, etc."></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4.0 Standard Operating Procedures -->
+                <section id="sop-section" class="content-section bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">4.0 Standard Operating Procedures</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="opMode" class="form-label">Operation Mode</label>
+                            <input type="text" id="opMode" class="form-input" placeholder="e.g., Passive, Manually Operated, Automated">
+                        </div>
+                        <div>
+                            <label for="telemetry" class="form-label">Telemetry / SCADA</label>
+                            <select id="telemetry" class="form-select" onchange="toggleTelemetryDetails(this.value)">
+                                <option value="No" selected>No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+
+                        <!-- Telemetry Details -->
+                        <div id="telemetry-details" class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border rounded-lg bg-gray-50 hidden">
+                            <div>
+                                <label for="sensorData" class="form-label">Sensor Data Collected</label>
+                                <input type="text" id="sensorData" class="form-input" placeholder="e.g., Upstream water level, Gate position %">
+                            </div>
+                            <div>
+                                <label for="telemetryAlarms" class="form-label">Alarm Thresholds</label>
+                                <input type="text" id="telemetryAlarms" class="form-input" placeholder="e.g., Upstream level > 4.5 ft">
+                            </div>
+                            <div>
+                                <label for="telemetryNotify" class="form-label">Remote Notification Thresholds</label>
+                                <input type="text" id="telemetryNotify" class="form-input" placeholder="e.g., Email on alarm">
+                            </div>
+                            <div>
+                                <label for="telemetryCalibrate" class="form-label">Sensor Calibration Verification</label>
+                                <input type="text" id="telemetryCalibrate" class="form-input" placeholder="e.g., Annual check by technician">
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label for="autoOp" class="form-label">Automatic/Passive Operation</label>
+                            <textarea id="autoOp" class="form-textarea" rows="3" placeholder="Describe how the gate functions passively (e.g., Gate opens on ebb tide when upstream head is > 0.5 ft.)."></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="manualOp" class="form-label">Manual Operation</label>
+                            <textarea id="manualOp" class="form-textarea" rows="4" placeholder="Step-by-step instructions for manual operation (e.g., To override: 1. Place stop logs. 2. Attach winch, etc.)."></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="fishPassage" class="form-label">Fish Passage Protocol</label>
+                            <textarea id="fishPassage" class="form-textarea" rows="3" placeholder="Operations to aid fish passage (e.g., gate is propped open 6 inches from April 1 - May 30)"></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="opTriggers" class="form-label">Operating Triggers</label>
+                            <textarea id="opTriggers" class="form-textarea" rows="3" placeholder="Conditions that trigger specific actions (e.g., 'Close gate manually if storm surge is predicted to exceed 5.0 ft NAVD88'). Include seasonal adjustments."></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="nonEmergencyNotify" class="form-label">Non-Emergency Notifications</label>
+                            <textarea id="nonEmergencyNotify" class="form-textarea" rows="3" placeholder="Protocol for routine actions (e.g., Notify Harbormaster 24 hours before any manual operation during boating season)."></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5.0 Inspection Schedule -->
+                <section id="inspection-schedule-section" class="content-section bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">5.0 Inspection Schedule</h2>
+                    <div class="overflow-x-auto border rounded-lg shadow">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="table-header">Inspection Type</th>
+                                    <th class="table-header">Frequency</th>
+                                    <th class="table-header">Responsible Party</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="table-cell font-medium">Routine (Visual)</td>
+                                    <td class="table-cell"><input type="text" id="inspectRoutineFreq" class="form-input border-none" placeholder="e.g., weekly, monthly, after >1-inch rainfall"></td>
+                                    <td class="table-cell"><input type="text" id="inspectRoutineParty" class="form-input border-none" placeholder="e.g., DPW staff"></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-cell font-medium">Major (Detailed)</td>
+                                    <td class="table-cell"><input type="text" id="inspectMajorFreq" class="form-input border-none" placeholder="e.g., annually (spring), biannually"></td>
+                                    <td class="table-cell"><input type="text" id="inspectMajorParty" class="form-input border-none" placeholder="e.g., DPW staff, Consultant"></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-cell font-medium">Post-Storm</td>
+                                    <td class="table-cell"><input type="text" id="inspectStormFreq" class="form-input border-none" placeholder="e.g., within 48 hrs of major storm or king tide"></td>
+                                    <td class="table-cell"><input type="text" id="inspectStormParty" class="form-input border-none" placeholder="e.g., DPW staff"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 6.0 Routine Maintenance -->
+                <section id="maintenance-section" class="content-section bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">6.0 Routine Maintenance Procedures</h2>
+                    
+                    <div class="mb-4 p-4 border rounded-lg bg-gray-50">
+                        <h4 class="text-md font-medium text-gray-700 mb-2">Add New Maintenance Task</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <input type="text" id="newTask" class="form-input" placeholder="Task">
+                            <input type="text" id="newTaskFreq" class="form-input" placeholder="Frequency">
+                            <textarea id="newTaskProc" class="form-textarea" rows="1" placeholder="Procedure"></textarea>
+                            <input type="text" id="newTaskTools" class="form-input" placeholder="Tools / Materials / Safety Gear">
+                        </div>
+                        <button onclick="addMaintTask()" class="primary-btn mt-3">Add Task</button>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-lg shadow border">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="table-header">Task</th>
+                                    <th class="table-header">Frequency</th>
+                                    <th class="table-header">Procedure</th>
+                                    <th class="table-header">Materials / Tools / Safety Gear</th>
+                                    <th class="table-header print-omit">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="maintenanceTable" class="bg-white divide-y divide-gray-200">
+                                <!-- Default tasks -->
+                                <tr data-id="maint-1">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Debris Removal"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Monthly and Post-Storm"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Remove all debris from gate opening, hinges, and channel."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Gloves, Rakes, Grapnel Hook, PPE"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('maint-1')">X</button></td>
+                                </tr>
+                                <tr data-id="maint-2">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Hinge Lubrication"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Annually (Fall)"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Apply marine-grade grease to hinge pins."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Grease Gun, Marine-Grade Grease"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('maint-2')">X</button></td>
+                                </tr>
+                                <tr data-id="maint-3">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Hardware Check"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Annually"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Check and tighten all visible nuts and bolts."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Wrench Set, Socket Set"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('maint-3')">X</button></td>
+                                </tr>
+                                <tr data-id="maint-4">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Vegetation Control"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="As needed"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Cut back vegetation blocking access or interfering with operation."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Loppers, Brush Cutter, PPE"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('maint-4')">X</button></td>
+                                </tr>
+                                <tr data-id="maint-5">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Seal Cleaning"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Annually"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Scrape barnacles and marine growth from seals and seating surface."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Scrapers, Putty Knife, PPE"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('maint-5')">X</button></td>
+                                </tr>
+                                <tr data-id="maint-6">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Biofouling Control"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="As needed"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Remove barnacles, mussels, algae, etc."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Scrapers, Pressure Washer, PPE"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('maint-6')">X</button></td>
+                                </tr>
+                                <tr data-id="maint-7">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="SCADA Maintenance"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Annually"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Check sensors, calibration, and data transmission."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Technician, Calibration Tools"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('maint-7')">X</button></td>
+                                </tr>
+                                <tr data-id="maint-8">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Corrosion Control"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Annually"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Inspect coatings, check/replace galvanic anodes, etc."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Touch-up Paint, Anodes, Tools"></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('maint-8')">X</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 7.0 Emergency Action Plan -->
+                <section id="eap-section" class="content-section bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">7.0 Emergency Action Plan (EAP)</h2>
+
+                    <div class="mb-4 p-4 border rounded-lg bg-gray-50">
+                        <h4 class="text-md font-medium text-gray-700 mb-2">Add New EAP Item</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label class="form-label">Condition / Failure</label>
+                                <select id="newEapCondition" class="form-select" onchange="checkEapCondition(this.value)">
+                                    <option value="Gate Stuck Open">Gate Stuck Open</option>
+                                    <option value="Gate Stuck Closed">Gate Stuck Closed</option>
+                                    <option value="Structural Failure">Structural Failure</option>
+                                    <option value="Hazmat Spill">Hazmat Spill</option>
+                                    <option value="Public Communication">Public Communication</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <input type="text" id="newEapConditionOther" class="form-input mt-2 hidden" placeholder="Enter custom condition">
+                            </div>
+                            <div>
+                                <label class="form-label">Detection Method</label>
+                                <textarea id="newEapDetection" class="form-textarea" rows="2" placeholder="e.g., visual; upstream flood alert"></textarea>
+                            </div>
+                            <div>
+                                <label class="form-label">Immediate Action(s)</label>
+                                <textarea id="newEapAction" class="form-textarea" rows="2" placeholder="e.g., 1. Notify Primary Lead. 2. Dispatch crew"></textarea>
+                            </div>
+                            <div>
+                                <label class="form-label">Notification Protocol</label>
+                                <textarea id="newEapNotify" class="form-textarea" rows="2" placeholder="e.g., Call Primary O&M Lead (Section 2)"></textarea>
+                            </div>
+                        </div>
+                        <button onclick="addEAPItem()" class="primary-btn mt-3">Add EAP Item</button>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-lg shadow border">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="table-header">Condition / Failure</th>
+                                    <th class="table-header">Detection Method</th>
+                                    <th class="table-header">Immediate Action(s)</th>
+                                    <th class="table-header">Notification Protocol</th>
+                                    <th class="table-header print-omit">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="eapTable" class="bg-white divide-y divide-gray-200">
+                                <!-- Default EAP Items -->
+                                <tr data-id="eap-1">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Gate Stuck Open"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Visual; Upstream flood alert; Telemetry alarm"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="1. Notify Primary Lead. 2. Dispatch crew to assess. 3. Attempt manual closure or debris removal."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Call Primary O&M Lead (Section 2). Notify Town EMD if storm is imminent."></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('eap-1')">X</button></td>
+                                </tr>
+                                <tr data-id="eap-2">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Gate Stuck Closed"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Visual; Upstream flood alert; Telemetry alarm"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="1. Notify Primary Lead. 2. Dispatch crew to assess. 3. Attempt manual opening or debris removal."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Call Primary O&M Lead (Section 2). Notify upstream property owners if flooding is likely."></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('eap-2')">X</button></td>
+                                </tr>
+                                <tr data-id="eap-3">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Structural Failure"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Inspection; Public report"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="1. Barricade area immediately. 2. Notify Primary Lead and Engineering Support. 3. Do not operate gate."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Call Primary O&M Lead, Backup, and Engineering Support (Section 2)."></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('eap-3')">X</button></td>
+                                </tr>
+                                <tr data-id="eap-4">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Hazmat Spill"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Visual (sheen, odor); Public report"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="1. DO NOT OPERATE GATE. 2. Call 911 / Fire Dept (Hazmat). 3. Secure area."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Call 911 first. Then notify Primary O&M Lead."></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('eap-4')">X</button></td>
+                                </tr>
+                                <tr data-id="eap-5">
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Public Communication"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="N/A (Activated by major failure)"></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="All media/public inquiries are directed to the designated spokesperson."></td>
+                                    <td class="table-cell"><input type="text" class="form-input border-none" value="Designated spokesperson (e.g., DPW Director, Town PIO) speaks to residents/media."></td>
+                                    <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('eap-5')">X</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 8.0 Record Keeping -->
+                <section id="records-section" class="content-section bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+                    <h2 class="text-2xl font-semibold text-gray-800 border-b pb-2 mb-6">8.0 Record Keeping and Logs</h2>
+                    <p class="text-gray-600 mb-6">Define where critical records are stored and maintained.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="recStorageLocation" class="form-label">O&M Plan Location (Hard Copy)</label>
+                            <input type="text" id="recStorageLocation" class="form-input" placeholder="e.g., DPW Office, File Cabinet 3">
+                        </div>
+                        <div>
+                            <label for="recOperatorAddress" class="form-label">Operator Address</label>
+                            <input type="text" id="recOperatorAddress" class="form-input" placeholder="e.g., 123 Main St, Town, MA 02000">
+                        </div>
+                        <div>
+                            <label for="recInspLog" class="form-label">Inspection Log Location</label>
+                            <input type="text" id="recInspLog" class="form-input" placeholder="e.g., Digital Drive URL, Logbook in Truck">
+                        </div>
+                        <div>
+                            <label for="recMaintLog" class="form-label">Maintenance Log Location</label>
+                            <input type="text" id="recMaintLog" class="form-input" placeholder="e.g., Digital Drive URL, Logbook in Truck">
+                        </div>
+                        <div>
+                            <label for="recOpLog" class="form-label">Operational Log Location</label>
+                            <input type="text" id="recOpLog" class="form-input" placeholder="e.g., Digital Drive URL, Logbook in Truck">
+                        </div>
+                        <div>
+                            <label for="recPhotos" class="form-label">Photo Log Location</label>
+                            <input type="text" id="recPhotos" class="form-input" placeholder="e.g., Digital Drive URL, 'Tide Gates' Folder">
+                        </div>
+                        <div>
+                            <label for="recDrawings" class="form-label">As-Built Drawings Location</label>
+                            <input type="text" id="recDrawings" class="form-input" placeholder="e.g., Town Hall Vault, Digital Drive URL">
+                        </div>
+                        <div>
+                            <label for="recManuals" class="form-label">Manufacturer Manuals Location</label>
+                            <input type="text" id="recManuals" class="form-input" placeholder="e.g., DPW Office, File Cabinet 3 or Digital Drive URL">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Inspection Checklist (Appendix A) -->
+                <section id="checklist-section" class="content-section bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+                    <div class="flex justify-between items-center border-b pb-2 mb-6">
+                        <h2 class="text-2xl font-semibold text-gray-800">Appendix A: Tide Gate Inspection Checklist</h2>
+                    </div>
+
+                    <!-- Checklist Header -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 p-4 border rounded-lg bg-gray-50">
+                        <div>
+                            <label for="chkLocation" class="form-label">Tide Gate ID / Location:</label>
+                            <input type="text" id="chkLocation" class="form-input">
+                        </div>
+                        <div>
+                            <label for="chkInspector" class="form-label">Inspector Name:</label>
+                            <input type="text" id="chkInspector" class="form-input">
+                        </div>
+                        <div>
+                            <label for="chkDate" class="form-label">Inspection Date:</label>
+                            <input type="date" id="chkDate" class="form-input">
+                        </div>
+                        <div>
+                            <label for="chkTime" class="form-label">Time:</label>
+                            <input type="time" id="chkTime" class="form-input">
+                        </div>
+                        <div>
+                            <label for="chkWeatherCurrent" class="form-label">Current Weather:</label>
+                            <input type="text" id="chkWeatherCurrent" class="form-input">
+                        </div>
+                        <div>
+                            <label for="chkWeatherRecent" class="form-label">Recent Weather:</label>
+                            <input type="text" id="chkWeatherRecent" class="form-input" placeholder="e.g., >1-inch rainfall">
+                        </div>
+                        <div class="md:col-span-2 lg:col-span-3">
+                            <label class="form-label">Tide Status:</label>
+                            <div class="flex flex-wrap gap-x-6 gap-y-2">
+                                <label class="flex items-center"><input type="radio" id="chk_tide_ebbing" name="tideStatus" class="form-radio"> Ebbing</label>
+                                <label class="flex items-center"><input type="radio" id="chk_tide_flooding" name="tideStatus" class="form-radio"> Flooding</label>
+                                <label class="flex items-center"><input type="radio" id="chk_tide_slack" name="tideStatus" class="form-radio"> Slack</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="chkNextHigh" class="form-label">Next High Tide:</label>
+                            <input type="time" id="chkNextHigh" class="form-input">
+                        </div>
+                        <div>
+                            <label for="chkNextLow" class="form-label">Next Low Tide:</label>
+                            <input type="time" id="chkNextLow" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- 1. General Inspection -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">1. General Inspection (For All Tide Gate Types)</h3>
+                        
+                        <div class="checklist-category">
+                            <h4 class="checklist-header">Site Access and Safety</h4>
+                            <div class="checklist-item"><input type="checkbox" id="chk_safe_access" class="form-checkbox"><label for="chk_safe_access">Safe Access: Path to the tide gate is clear, stable, and safe.</label></div>
+                            <label class="form-label mt-1">Describe any unsafe conditions:</label><textarea id="chk_safe_access_notes" class="form-textarea" rows="2"></textarea>
+                            
+                            <div class="checklist-item mt-2"><input type="checkbox" id="chk_vandalism" class="form-checkbox"><label for="chk_vandalism">Vandalism: No signs of graffiti, damage, or tampering.</label></div>
+                            <label class="form-label mt-1">Describe any observed vandalism/damage:</label><textarea id="chk_vandalism_notes" class="form-textarea" rows="2"></textarea>
+                            
+                            <div class="checklist-item mt-2"><input type="checkbox" id="chk_signage" class="form-checkbox"><label for="chk_signage">Signage: Warning signs are present and legible (if applicable).</label></div>
+                            <label class="form-label mt-1">Notes:</label><textarea id="chk_signage_notes" class="form-textarea" rows="2"></textarea>
+                        </div>
+                        
+                        <div class="checklist-category">
+                            <h4 class="checklist-header">Channel Conditions</h4>
+                            <h5 class="font-semibold text-gray-700">Upstream Channel (Land Side):</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_up_debris" class="form-checkbox"><label for="chk_up_debris">Debris: No significant blockages from trash, branches, or logs.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_up_silt" class="form-checkbox"><label for="chk_up_silt">Siltation: No excessive sediment buildup blocking the invert.</label></div>
+                            <label class="form-label mt-1">Notes:</label><textarea id="chk_up_notes" class="form-textarea" rows="2"></textarea>
+                            
+                            <h5 class="font-semibold text-gray-700 mt-3">Downstream Channel (Tide Side):</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_down_debris" class="form-checkbox"><label for="chk_down_debris">Debris: No blockages (e.B., sunken boats, large debris).</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_down_silt" class="form-checkbox"><label for="chk_down_silt">Siltation/Shoaling: No sandbars or sediment buildup.</label></div>
+                            <label class="form-label mt-1">Notes:</label><textarea id="chk_down_notes" class="form-textarea" rows="2"></textarea>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Bank Stability:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_bank_erosion" class="form-checkbox"><label for="chk_bank_erosion">Erosion: No signs of bank slumping, undercutting, or erosion near structure.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_bank_veg" class="form-checkbox"><label for="chk_bank_veg">Vegetation: No excessive vegetation obstructing channel or damaging structure.</label></div>
+                            <label class="form-label mt-1">Notes:</label><textarea id="chk_bank_notes" class="form-textarea" rows="2"></textarea>
+                        </div>
+
+                        <div class="checklist-category">
+                            <h4 class="checklist-header">Supporting Structure (Headwall, Wingwalls, Culvert)</h4>
+                            <h5 class="font-semibold text-gray-700">Concrete:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_conc_cracking" class="form-checkbox"><label for="chk_conc_cracking">Cracking/Spalling: Check for cracks, crumbling concrete, or exposed rebar.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_conc_settle" class="form-checkbox"><label for="chk_conc_settle">Settlement: Structure appears level, with no signs of sinking or tilting.</label></div>
+                            <label class="form-label mt-1">Notes:</label><textarea id="chk_conc_notes" class="form-textarea" rows="2"></textarea>
+                            
+                            <h5 class="font-semibold text-gray-700 mt-3">Scour:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_scour_undermine" class="form-checkbox"><label for="chk_scour_undermine">Undermining: No gaps or voids under the headwall, apron, or culvert.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_scour_riprap" class="form-checkbox"><label for="chk_scour_riprap">Apron/Riprap: Stone protection (riprap) is in place and has not washed away.</label></div>
+                            <label class="form-label mt-1">Notes:</label><textarea id="chk_scour_notes" class="form-textarea" rows="2"></textarea>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Hardware:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_hw_anchors" class="form-checkbox"><label for="chk_hw_anchors">Anchors/Bolts: All hardware securing gate frame is present, tight, and free of severe corrosion.</label></div>
+                            <label class="form-label mt-1">Notes:</label><textarea id="chk_hw_notes" class="form-textarea" rows="2"></textarea>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Pipe/Culvert (If applicable):</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_pipe_align" class="form-checkbox"><label for="chk_pipe_align">Alignment: Pipe sections are aligned, and joints are sealed.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_pipe_damage" class="form-checkbox"><label for="chk_pipe_damage">Damage: No cracks, holes, or crushing visible in the pipe.</label></div>
+                            <label class="form-label mt-1">Notes:</label><textarea id="chk_pipe_notes" class="form-textarea" rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 2. Specific Gate-Type Inspection -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">2. Specific Gate-Type Inspection</h3>
+                        
+                        <label for="chkGateTypeSelect" class="form-label">Select gate type to show relevant checklist:</label>
+                        <select id="chkGateTypeSelect" class="form-select w-full md:w-1/2" onchange="showGateTypeChecklist(this.value)">
+                            <option value="">Select a type...</option>
+                            <option value="flap">A. Flap Gates (Top/Side-Hinged)</option>
+                            <option value="srt">B. Self-Regulating Tide Gates (SRTs)</option>
+                            <option value="sluice">C. Sluice Gates (Lifting/Sliding)</option>
+                            <option value="duckbill">D. Duckbill Check Valves</option>
+                            <option value="mitre">E. Mitre Gates (Dual-Leaf)</option>
+                        </select>
+
+                        <!-- A. Flap Gates -->
+                        <div id="chk-type-flap" class="checklist-category mt-4 hidden">
+                            <h4 class="checklist-header">A. Flap Gates (Top/Side-Hinged)</h4>
+                            <h5 class="font-semibold text-gray-700">Gate Leaf (The "Flap"):</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_corrosion" class="form-checkbox"><label for="chk_flap_corrosion">Corrosion: Check for rust, pitting, or holes (metal gates).</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_damage" class="form-checkbox"><label for="chk_flap_damage">Damage: No cracks, warping, bending, or rot (wood/composite).</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_growth" class="form-checkbox"><label for="chk_flap_growth">Marine Growth: No excessive barnacles/mussels that add weight or prevent seal.</label></div>
+                            
+                            <h5 class="font-semibold text-gray-700 mt-3">Hinges / Pins / Arms:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_move" class="form-checkbox"><label for="chk_flap_move">Movement: Gate swings freely (if safe to test).</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_seize" class="form-checkbox"><label for="chk_flap_seize">Seizing: Hinges are not "frozen" from rust or debris.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_wear" class="form-checkbox"><label for="chk_flap_wear">Corrosion/Wear: Pins and hinge points are not excessively worn or corroded.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_lube" class="form-checkbox"><label for="chk_flap_lube">Lubrication: (If applicable) Grease points are present and maintained.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_align" class="form-checkbox"><label for="chk_flap_align">Alignment: Gate hangs true and level on its hinges.</label></div>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Seat and Seal:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_debris" class="form-checkbox"><label for="chk_flap_debris">(Critical Check) No rocks, wood, or debris lodged between gate and seat.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_seal" class="form-checkbox"><label for="chk_flap_seal">Seal Condition: (If equipped) Rubber/neoprene seals are not torn, brittle, or missing.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_frame" class="form-checkbox"><label for="chk_flap_frame">Seat Frame: Frame is not damaged, cracked, or excessively corroded.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_flap_leak" class="form-checkbox"><label for="chk_flap_leak">Leakage: (Observe at high tide) Note any significant leakage when seated.</label></div>
+                            <label class="form-label mt-1">Flap Gate Notes:</label><textarea id="chk_flap_notes" class="form-textarea" rows="3"></textarea>
+                        </div>
+                        
+                        <!-- B. SRTs -->
+                        <div id="chk-type-srt" class="checklist-category mt-4 hidden">
+                            <h4 class="checklist-header">B. Self-Regulating Tide Gates (SRTs)</h4>
+                            <p class="text-sm text-gray-600 mb-3">(Note: Includes all checks listed above for regular Flap Gates, plus the following)</p>
+                            <h5 class="font-semibold text-gray-700">Floats / Counterweights:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_srt_float_cond" class="form-checkbox"><label for="chk_srt_float_cond">Condition: Floats have no cracks, holes, or waterlogging.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_srt_float_secure" class="form-checkbox"><label for="chk_srt_float_secure">Security: Floats and counterweights are securely attached.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_srt_float_growth" class="form-checkbox"><label for="chk_srt_float_growth">Marine Growth: No excessive growth altering buoyancy.</label></div>
+                            
+                            <h5 class="font-semibold text-gray-700 mt-3">Float Arms / Levers:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_srt_arm_cond" class="form-checkbox"><label for="chk_srt_arm_cond">Condition: Check for bending, significant corrosion, or damage.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_srt_arm_pivot" class="form-checkbox"><label for="chk_srt_arm_pivot">Pivot Points: All pivots are free, not seized, and lubricated.</label></div>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Buoyant Gate Leaf/Lid:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_srt_buoyant" class="form-checkbox"><label for="chk_srt_buoyant">Condition: (If applicable) Gate leaf is not damaged or waterlogged.</label></div>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Mechanism Freedom:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_srt_mech_debris" class="form-checkbox"><label for="chk_srt_mech_debris">(Critical Check) No debris (logs, ropes) tangled in mechanism.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_srt_mech_move" class="form-checkbox"><label for="chk_srt_mech_move">Movement: Entire mechanism moves freely through full range of motion.</label></div>
+                            <label class="form-label mt-1">SRT Notes:</label><textarea id="chk_srt_notes" class="form-textarea" rows="3"></textarea>
+                        </div>
+                        
+                        <!-- C. Sluice Gates -->
+                        <div id="chk-type-sluice" class="checklist-category mt-4 hidden">
+                            <h4 class="checklist-header">C. Sluice Gates (Lifting/Sliding)</h4>
+                            <h5 class="font-semibold text-gray-700">Gate / Slide:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_sluice_cond" class="form-checkbox"><label for="chk_sluice_cond">Condition: No significant corrosion, warping, or damage.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_sluice_tracks" class="form-checkbox"><label for="chk_sluice_tracks">Guides/Tracks: Tracks are clear of debris, not damaged, and allow smooth movement.</label></div>
+                            
+                            <h5 class="font-semibold text-gray-700 mt-3">Operator (Handwheel, Motor, Hydraulic):</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_sluice_op_func" class="form-checkbox"><label for="chk_sluice_op_func">Function: Operator engages and moves the gate (if tested).</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_sluice_op_cond" class="form-checkbox"><label for="chk_sluice_op_cond">Condition: Handwheel not broken; gearbox lubricated; no leaks.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_sluice_op_limit" class="form-checkbox"><label for="chk_sluice_op_limit">Limit Switches: (If automated) Switches are in good condition.</label></div>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Stem (Lifting Screw):</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_sluice_stem_cond" class="form-checkbox"><label for="chk_sluice_stem_cond">Condition: Stem is straight (not bent), clean, and lubricated.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_sluice_stem_threads" class="form-checkbox"><label for="chk_sluice_stem_threads">Threads: Threads are not stripped or severely corroded.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_sluice_stem_guides" class="form-checkbox"><label for="chk_sluice_stem_guides">Stem Guides: Guides are in place and aligned.</label></div>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Seals:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_sluice_seals" class="form-checkbox"><label for="chk_sluice_seals">Bottom/Side Seals: Check for wear, damage, or debris (when closed).</label></div>
+                            <label class="form-label mt-1">Sluice Gate Notes:</label><textarea id="chk_sluice_notes" class="form-textarea" rows="3"></textarea>
+                        </div>
+                        
+                        <!-- D. Duckbill -->
+                        <div id="chk-type-duckbill" class="checklist-category mt-4 hidden">
+                            <h4 class="checklist-header">D. Duckbill Check Valves</h4>
+                            <h5 class="font-semibold text-gray-700">Elastomer Body (The "Bill"):</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_duck_damage" class="form-checkbox"><label for="chk_duck_damage">Damage: No tears, cracks, punctures, or hardening/perishing (UV).</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_duck_invert" class="form-checkbox"><label for="chk_duck_invert">Inversion: The bill is not stuck inside-out (inverted).</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_duck_block" class="form-checkbox"><label for="chk_duck_block">Blockage: No debris or sediment trapped INSIDE the bill.</label></div>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Connection / Clamping:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_duck_clamps" class="form-checkbox"><label for="chk_duck_clamps">Clamps: Stainless steel clamps are tight, secure, not severely corroded.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_duck_flange" class="form-checkbox"><label for="chk_duck_flange">Flange: Connection to pipe/headwall is secure, no leaks or slipping.</label></div>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Function:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_duck_seal" class="form-checkbox"><label for="chk_duck_seal">Sealing: Bill appears to be sealed flat during high tide.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_duck_open" class="form-checkbox"><label for="chk_duck_open">Opening: Bill appears to open normally during outflow.</label></div>
+                            <label class="form-label mt-1">Duckbill Valve Notes:</label><textarea id="chk_duck_notes" class="form-textarea" rows="3"></textarea>
+                        </div>
+                        
+                        <!-- E. Mitre Gates -->
+                        <div id="chk-type-mitre" class="checklist-category mt-4 hidden">
+                            <h4 class="checklist-header">E. Mitre Gates (Dual-Leaf)</h4>
+                            <h5 class="font-semibold text-gray-700">Gate Leaves (Both):</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_mitre_cond" class="form-checkbox"><label for="chk_mitre_cond">Condition: No rot (wood), corrosion (metal), or structural damage.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_mitre_align" class="form-checkbox"><label for="chk_mitre_align">Alignment: Both leaves meet squarely at miter post and rest on sill.</label></div>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Hinges / Pintles (Pivots):</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_mitre_hinge_cond" class="form-checkbox"><label for="chk_mitre_hinge_cond">Condition: Not excessively worn, corroded, or seized.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_mitre_hinge_align" class="form-checkbox"><label for="chk_mitre_hinge_align">Alignment: Pivots are secure and holding gates in proper position.</label></div>
+
+                            <h5 class="font-semibold text-gray-700 mt-3">Sealing Surfaces:</h5>
+                            <div class="checklist-item"><input type="checkbox" id="chk_mitre_post" class="form-checkbox"><label for="chk_mitre_post">Miter Post: Meeting point of gates is not damaged and forms a good seal.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_mitre_sill" class="form-checkbox"><label for="chk_mitre_sill">Sill: Bottom "doorstep" is clear of debris/silt and not excessively worn.</label></div>
+                            <label class="form-label mt-1">Mitre Gate Notes:</label><textarea id="chk_mitre_notes" class="form-textarea" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 3. Summary and Required Actions -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">3. Summary and Required Actions</h3>
+                        
+                        <div class="checklist-category">
+                            <h4 class="checklist-header">Overall Condition Rating</h4>
+                            <div class="flex flex-wrap gap-x-6 gap-y-2">
+                                <label class="flex items-center"><input type="radio" id="chk_rating_good" name="rating" class="form-radio"> Good</label>
+                                <label class="flex items-center"><input type="radio" id="chk_rating_fair" name="rating" class="form-radio"> Fair</label>
+                                <label class="flex items-center"><input type="radio" id="chk_rating_poor" name="rating" class="form-radio"> Poor</label>
+                                <label class="flex items-center"><input type="radio" id="chk_rating_urgent" name="rating" class="form-radio"> Urgent Attention Needed</label>
+                            </div>
+
+                            <label class="form-label mt-3">Overall Observations:</label>
+                            <textarea id="chk_summary_obs" class="form-textarea" rows="4"></textarea>
+
+                            <h4 class="checklist-header mt-4">Immediate Actions Required (Safety or Urgent Repair)</h4>
+                            <div class="checklist-item"><input type="checkbox" id="chk_act_debris" class="form-checkbox"><label for="chk_act_debris">Debris removal</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_act_secure" class="form-checkbox"><label for="chk_act_secure">Secure loose components</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_act_barricade" class="form-checkbox"><label for="chk_act_barricade">Barricade unsafe area</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_act_refer" class="form-checkbox"><label for="chk_act_refer">Refer to Engineering Support (for significant scour, cracks, etc.)</label></div>
+                            <label class="form-label mt-1">Other:</label><input type="text" id="chk_act_other" class="form-input">
+                            
+                            <h4 class="checklist-header mt-4">Recommended Maintenance (Non-Urgent)</h4>
+                            <div class="checklist-item"><input type="checkbox" id="chk_maint_lube" class="form-checkbox"><label for="chk_maint_lube">Lubrication</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_maint_silt" class="form-checkbox"><label for="chk_maint_silt">Silt/Sediment removal</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_maint_veg" class="form-checkbox"><label for="chk_maint_veg">Vegetation control</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_maint_seals" class="form-checkbox"><label for="chk_maint_seals">Replace worn seals</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_maint_concrete" class="form-checkbox"><label for="chk_maint_concrete">Repair concrete spalling</label></div>
+                            <label class="form-label mt-1">Other:</label><input type="text" id="chk_maint_other" class="form-input">
+                            
+                            <h4 class="checklist-header mt-4">Photo Log</h4>
+                            <label class="form-label">Photo Descriptions (Note upstream/downstream and any problem areas):</label>
+                            <textarea id="chk_photo_log" class="form-textarea" rows="4" placeholder="e.g., Photo 1: Upstream channel, debris. Photo 2: Downstream, hinge corrosion..."></textarea>
+                        </div>
+                    </div>
+                </section>
+                
+            </main>
+        </div>
+    </div>
+
+    <!-- Report Generation Modal -->
+    <div id="report-modal" class="fixed inset-0 z-50 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 hidden">
+        <div id="report-modal-content" class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-4 border-b non-printable">
+                <h2 id="report-title" class="text-2xl font-bold">Tide Gate O&M Plan</h2>
+                <div class="space-x-2">
+                    <button onclick="printReport()" class="primary-btn bg-blue-600 hover:bg-blue-700 focus:ring-blue-500">Print Report</button>
+                    <button onclick="closeGenerateModal()" class="secondary-btn">Close</button>
+                </div>
+            </div>
+            <!-- Report Content (to be populated) -->
+            <div id="report-content" class="p-8">
+                <!-- Content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        let currentPage = 'general-section';
+        // let pageBeforePrint = null; // Store the page to restore - REMOVED, THIS WAS THE BUG
+        let contactsCounter = 5; // Start after default contacts
+        let maintCounter = 9; // Start after default tasks
+        let eapCounter = 6; // Start after default items
+
+        function showPage(pageId) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            // Show the selected section
+            const sectionToShow = document.getElementById(pageId + '-section');
+            if (sectionToShow) {
+                sectionToShow.classList.remove('hidden');
+                currentPage = pageId + '-section';
+            }
+
+            // Update active link in sidebar
+            document.querySelectorAll('#sidebar a').forEach(link => {
+                link.classList.remove('active-nav', 'bg-gray-700', 'font-semibold');
+                if (link.getAttribute('onclick') === `showPage('${pageId}')`) {
+                    link.classList.add('active-nav', 'bg-gray-700', 'font-semibold');
+                }
+            });
+            // Scroll main content to top
+            document.getElementById('main-content').scrollTop = 0;
+        }
+
+        function toggleTelemetryDetails(value) {
+            const detailsDiv = document.getElementById('telemetry-details');
+            if (value === 'Yes') {
+                detailsDiv.classList.remove('hidden');
+            } else {
+                detailsDiv.classList.add('hidden');
+            }
+        }
+
+        function showGateTypeChecklist(type) {
+            // Hide all specific checklists
+            document.getElementById('chk-type-flap').classList.add('hidden');
+            document.getElementById('chk-type-srt').classList.add('hidden');
+            document.getElementById('chk-type-sluice').classList.add('hidden');
+            document.getElementById('chk-type-duckbill').classList.add('hidden');
+            document.getElementById('chk-type-mitre').classList.add('hidden');
+
+            // Show the selected one
+            if (type) {
+                const divToShow = document.getElementById(`chk-type-${type}`);
+                if (divToShow) {
+                    divToShow.classList.remove('hidden');
+                }
+                // Special case: SRT also shows Flap
+                if (type === 'srt') {
+                    document.getElementById('chk-type-flap').classList.remove('hidden');
+                }
+            }
+        }
+        
+        function checkEapCondition(value) {
+            const otherInput = document.getElementById('newEapConditionOther');
+            if (value === 'Other') {
+                otherInput.classList.remove('hidden');
+            } else {
+                otherInput.classList.add('hidden');
+            }
+        }
+        
+        // --- Dynamic Table Functions ---
+        function addContact() {
+            const type = document.getElementById('newContactType').value || 'N/A';
+            const name = document.getElementById('newContactName').value || 'N/A';
+            const info = document.getElementById('newContactInfo').value || 'N/A';
+            const table = document.getElementById('contactsTable');
+            
+            const newId = `contact-${contactsCounter++}`;
+            const row = table.insertRow(-1);
+            row.setAttribute('data-id', newId);
+            
+            row.innerHTML = `
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(type)}"></td>
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(name)}"></td>
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(info)}"></td>
+                <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('${newId}')">X</button></td>
+            `;
+            
+            // Clear inputs
+            document.getElementById('newContactType').value = '';
+            document.getElementById('newContactName').value = '';
+            document.getElementById('newContactInfo').value = '';
+        }
+
+        function addMaintTask() {
+            const task = document.getElementById('newTask').value || 'N/A';
+            const freq = document.getElementById('newTaskFreq').value || 'N/A';
+            const proc = document.getElementById('newTaskProc').value || 'N/A';
+            const tools = document.getElementById('newTaskTools').value || 'N/A';
+            const table = document.getElementById('maintenanceTable');
+            
+            const newId = `maint-${maintCounter++}`;
+            const row = table.insertRow(-1);
+            row.setAttribute('data-id', newId);
+
+            row.innerHTML = `
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(task)}"></td>
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(freq)}"></td>
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(proc)}"></td>
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(tools)}"></td>
+                <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('${newId}')">X</button></td>
+            `;
+
+            // Clear inputs
+            document.getElementById('newTask').value = '';
+            document.getElementById('newTaskFreq').value = '';
+            document.getElementById('newTaskProc').value = '';
+            document.getElementById('newTaskTools').value = '';
+        }
+
+        function addEAPItem() {
+            let condition = document.getElementById('newEapCondition').value;
+            if (condition === 'Other') {
+                condition = document.getElementById('newEapConditionOther').value || 'Other';
+            }
+            const detection = document.getElementById('newEapDetection').value || 'N/A';
+            const action = document.getElementById('newEapAction').value || 'N/A';
+            const notify = document.getElementById('newEapNotify').value || 'N/A';
+            const table = document.getElementById('eapTable');
+            
+            const newId = `eap-${eapCounter++}`;
+            const row = table.insertRow(-1);
+            row.setAttribute('data-id', newId);
+            
+            row.innerHTML = `
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(condition)}"></td>
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(detection)}"></td>
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(action)}"></td>
+                <td class="table-cell"><input type="text" class="form-input border-none" value="${escapeHTML(notify)}"></td>
+                <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('${newId}')">X</button></td>
+            `;
+
+            // Clear inputs
+            document.getElementById('newEapCondition').value = 'Gate Stuck Open';
+            document.getElementById('newEapConditionOther').value = '';
+            document.getElementById('newEapConditionOther').classList.add('hidden');
+            document.getElementById('newEapDetection').value = '';
+            document.getElementById('newEapAction').value = '';
+            document.getElementById('newEapNotify').value = '';
+        }
+
+        function removeRow(rowId) {
+            const row = document.querySelector(`tr[data-id="${rowId}"]`);
+            if (row) {
+                row.remove();
+            }
+        }
+
+        function escapeHTML(str) {
+            if (str === null || str === undefined) return '';
+            return str.toString().replace(/[&<>"']/g, function(m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[m];
+            });
+        }
+
+        // --- Report Generation ---
+        
+        function gatherData() {
+            const data = {
+                // Section 1
+                tideGateID: document.getElementById('tideGateID').value,
+                waterBody: document.getElementById('waterBody').value,
+                town: document.getElementById('town').value,
+                coordLong: document.getElementById('coordLong').value,
+                coordLat: document.getElementById('coordLat').value,
+                operator: document.getElementById('operator').value,
+                owner: document.getElementById('owner').value,
+                siteAccess: document.getElementById('siteAccess').value.replace(/\n/g, '<br>'),
+                omPlanVersion: document.getElementById('omPlanVersion').value,
+                planReviewDate: document.getElementById('planReviewDate').value,
+                locusMap: document.getElementById('locusMap').value.replace(/\n/g, '<br>'),
+
+                // Section 2
+                primaryName: document.getElementById('primaryName').value,
+                primaryTitle: document.getElementById('primaryTitle').value,
+                primaryOfficePhone: document.getElementById('primaryOfficePhone').value,
+                primaryMobilePhone: document.getElementById('primaryMobilePhone').value,
+                primaryEmail: document.getElementById('primaryEmail').value,
+                backupName: document.getElementById('backupName').value,
+                backupTitle: document.getElementById('backupTitle').value,
+                backupOfficePhone: document.getElementById('backupOfficePhone').value,
+                backupMobilePhone: document.getElementById('backupMobilePhone').value,
+                backupEmail: document.getElementById('backupEmail').value,
+                contacts: getTableData('contactsTable'),
+
+                // Section 3
+                gateType: document.getElementById('gateType').value,
+                numGates: document.getElementById('numGates').value,
+                gateMaterial: document.getElementById('gateMaterial').value,
+                culvertMaterial: document.getElementById('culvertMaterial').value,
+                gateDims: document.getElementById('gateDims').value,
+                invertInlet: document.getElementById('invertInlet').value,
+                invertOutlet: document.getElementById('invertOutlet').value,
+                gatePurpose: document.getElementById('gatePurpose').value,
+                installDate: document.getElementById('installDate').value,
+                manufacturer: document.getElementById('manufacturer').value,
+                otherInfo: document.getElementById('otherInfo').value.replace(/\n/g, '<br>'),
+
+                // Section 4
+                opMode: document.getElementById('opMode').value,
+                autoOp: document.getElementById('autoOp').value.replace(/\n/g, '<br>'),
+                manualOp: document.getElementById('manualOp').value.replace(/\n/g, '<br>'),
+                telemetry: document.getElementById('telemetry').value,
+                sensorData: document.getElementById('sensorData').value,
+                telemetryAlarms: document.getElementById('telemetryAlarms').value,
+                telemetryNotify: document.getElementById('telemetryNotify').value,
+                telemetryCalibrate: document.getElementById('telemetryCalibrate').value,
+                fishPassage: document.getElementById('fishPassage').value.replace(/\n/g, '<br>'),
+                opTriggers: document.getElementById('opTriggers').value.replace(/\n/g, '<br>Services'),
+                nonEmergencyNotify: document.getElementById('nonEmergencyNotify').value.replace(/\n/g, '<br>'),
+
+                // Section 5
+                inspectRoutineFreq: document.getElementById('inspectRoutineFreq').value,
+                inspectRoutineParty: document.getElementById('inspectRoutineParty').value,
+                inspectMajorFreq: document.getElementById('inspectMajorFreq').value,
+                inspectMajorParty: document.getElementById('inspectMajorParty').value,
+                inspectStormFreq: document.getElementById('inspectStormFreq').value,
+                inspectStormParty: document.getElementById('inspectStormParty').value,
+                
+                // Section 6
+                maintenanceTasks: getTableData('maintenanceTable'),
+
+                // Section 7
+                eapItems: getTableData('eapTable'),
+
+                // Section 8
+                recStorageLocation: document.getElementById('recStorageLocation').value,
+                recOperatorAddress: document.getElementById('recOperatorAddress').value,
+                recInspLog: document.getElementById('recInspLog').value,
+                recMaintLog: document.getElementById('recMaintLog').value,
+                recOpLog: document.getElementById('recOpLog').value,
+                recPhotos: document.getElementById('recPhotos').value,
+                recDrawings: document.getElementById('recDrawings').value,
+                recManuals: document.getElementById('recManuals').value,
+            };
+            return data;
+        }
+
+        function getTableData(tableId) {
+            const table = document.getElementById(tableId);
+            const data = [];
+            for (let i = 0; i < table.rows.length; i++) {
+                const row = table.rows[i];
+                const rowData = [];
+                // Get data from input fields within cells
+                const inputs = row.querySelectorAll('input[type="text"], textarea');
+                if (inputs.length > 0) {
+                    inputs.forEach(input => {
+                        rowData.push(input.value);
+                    });
+                    data.push(rowData);
+                }
+            }
+            return data;
+        }
+
+        function showGenerateModal() {
+            const data = gatherData();
+            generateReport(data); // Build the report content
+            
+            // Set dynamic title
+            const reportTitle = `Tide Gate O&M Plan for ${data.tideGateID || '[Tide Gate ID]'}, ${data.town || '[Town]'}`;
+            document.getElementById('report-title').textContent = reportTitle;
+
+            document.getElementById('report-modal').classList.remove('hidden');
+        }
+
+        function closeGenerateModal() {
+            document.getElementById('report-modal').classList.add('hidden');
+        }
+
+        function printReport() {
+            document.body.classList.add('printing-report');
+            
+            // Use requestAnimationFrame to ensure styles are applied before print
+            requestAnimationFrame(() => {
+                // NESTED requestAnimationFrame to force reflow
+                requestAnimationFrame(() => {
+                    window.print();
+                });
+            });
+            // Listener will clean up class
+        }
+
+        function printChecklist() {
+            // **** THIS IS THE FIX ****
+            // Permanently switch to the checklist page.
+            // This ensures it is visible (no 'hidden' class) before we print.
+            showPage('checklist'); 
+            
+            document.body.classList.add('printing-checklist');
+            
+            // Use requestAnimationFrame to ensure page has switched AND
+            // class has been applied before printing.
+            requestAnimationFrame(() => {
+                // NESTED requestAnimationFrame to force reflow
+                requestAnimationFrame(() => {
+                    window.print();
+                });
+            });
+            // afterPrint listener (below) will just clean up the class.
+            // The user will be left on the checklist page, which is fine.
+        }
+
+
+        function generateReport(data) {
+            // Helper function to build tables
+            const buildTable = (headers, rows) => {
+                let table = '<table style="width:100%; border-collapse: collapse; border: 1px solid #ccc; margin-bottom: 16px;">';
+                table += '<thead><tr style="background-color: #f1f1f1;">';
+                headers.forEach(h => table += `<th style="border: 1px solid #ccc; padding: 8px; text-align: left;">${h}</th>`);
+                table += '</tr></thead>';
+                table += '<tbody>';
+                rows.forEach(row => {
+                    table += '<tr>';
+                    row.forEach(cell => table += `<td style="border: 1px solid #ccc; padding: 8px; vertical-align: top;">${cell}</td>`);
+                    table += '</tr>';
+                });
+                table += '</tbody></table>';
+                return table;
+            };
+
+            // Helper function for report sections
+            const buildSection = (title, content) => `
+                <div style="margin-bottom: 24px; page-break-inside: avoid;">
+                    <h2 style="font-size: 1.5rem; font-weight: 600; border-bottom: 2px solid #ccc; padding-bottom: 4px; margin-bottom: 16px; page-break-after: avoid;">${title}</h2>
+                    ${content}
+                </div>
+            `;
+            
+            // Helper function for key-value pairs
+            const buildKV = (key, value) => `
+                <div style="margin-bottom: 8px;">
+                    <strong style="color: #333;">${key}:</strong> ${value || 'N/A'}
+                </div>
+            `;
+            const buildKVGrid = (items) => {
+                let html = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">';
+                items.forEach(item => {
+                    html += `<div><strong>${item.key}:</strong> ${item.value || 'N/A'}</div>`;
+                });
+                html += '</div>';
+                return html;
+            }
+            const buildKVStacked = (key, value) => `
+                <div style="margin-bottom: 12px;">
+                    <strong style="color: #333; display: block; margin-bottom: 4px;">${key}:</strong>
+                    <div style="background: #f9f9f9; border: 1px solid #eee; padding: 8px; border-radius: 4px;">${value || 'N/A'}</div>
+                </div>
+            `;
+
+            // --- Build Introduction ---
+            const intro = `
+                <div style="margin-bottom: 24px; page-break-inside: avoid;">
+                    <h2 style="font-size: 1.5rem; font-weight: 600; border-bottom: 2px solid #ccc; padding-bottom: 4px; margin-bottom: 16px; page-break-after: avoid;">Introduction</h2>
+                    <p style="margin-bottom: 8px;"><strong>Purpose of this O&M Plan:</strong> This document provides the O&M procedures for the ${escapeHTML(data.tideGateID) || '[Tide Gate ID]'} tide gate in ${escapeHTML(data.town) || '[Town name]'}, MA.</p>
+                    <p style="margin-bottom: 8px;"><strong>Plan Location:</strong> A digital copy of this O&M Plan is stored in TideGateway, and a hard copy is kept at ${escapeHTML(data.recStorageLocation) || '[insert storage plan location]'} at the ${escapeHTML(data.operator) || '[Operator name]'} facility at ${escapeHTML(data.recOperatorAddress) || '[insert Operator address]'}.</p>
+                </div>
+            `;
+
+            // --- Build Report Content ---
+            const content = `
+                ${intro}
+
+                ${buildSection('1.0 General Information', `
+                    ${buildKVGrid([
+                        { key: 'Tide Gate ID#', value: escapeHTML(data.tideGateID) },
+                        { key: 'Water Body', value: escapeHTML(data.waterBody) },
+                        { key: 'Town', value: escapeHTML(data.town) },
+                        { key: 'Site Coordinates', value: `Long: ${escapeHTML(data.coordLong)}, Lat: ${escapeHTML(data.coordLat)}` },
+                        { key: 'Operator', value: escapeHTML(data.operator) },
+                        { key: 'Owner', value: escapeHTML(data.owner) },
+                        { key: 'O&M Plan Version', value: escapeHTML(data.omPlanVersion) },
+                        { key: 'Next Plan Review Date', value: escapeHTML(data.planReviewDate) }
+                    ])}
+                    ${buildKVStacked('Site Access Instructions', escapeHTML(data.siteAccess))}
+                    ${buildKVStacked('Locus Map', escapeHTML(data.locusMap))}
+                `)}
+
+                ${buildSection('2.0 Responsible Personnel / Contact Information', `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; page-break-inside: avoid;">
+                        <div style="border: 1px solid #ccc; padding: 12px; border-radius: 4px;">
+                            <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">Primary O&M Lead</h3>
+                            ${buildKV('Name', escapeHTML(data.primaryName))}
+                            ${buildKV('Organization/Title', escapeHTML(data.primaryTitle))}
+                            ${buildKV('Office Phone', escapeHTML(data.primaryOfficePhone))}
+                            ${buildKV('Mobile Phone', escapeHTML(data.primaryMobilePhone))}
+                            ${buildKV('Email', escapeHTML(data.primaryEmail))}
+                        </div>
+                        <div style="border: 1px solid #ccc; padding: 12px; border-radius: 4px;">
+                            <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">Backup O&M Contact</h3>
+                            ${buildKV('Name', escapeHTML(data.backupName))}
+                            ${buildKV('Organization/Title', escapeHTML(data.backupTitle))}
+                            ${buildKV('Office Phone', escapeHTML(data.backupOfficePhone))}
+                            ${buildKV('Mobile Phone', escapeHTML(data.backupMobilePhone))}
+                            ${buildKV('Email', escapeHTML(data.backupEmail))}
+                        </div>
+                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">Other Contacts</h3>
+                    ${buildTable(['Contact Type', 'Name / Service', 'Contact Info'], data.contacts)}
+                `)}
+
+                ${buildSection('3.0 Tide Gate Structure/Design Details', `
+                    ${buildKVGrid([
+                        { key: 'Tide Gate Type', value: escapeHTML(data.gateType) },
+                        { key: 'Number of Gates', value: escapeHTML(data.numGates) },
+                        { key: 'Tide Gate Material(s)', value: escapeHTML(data.gateMaterial) },
+                        { key: 'Culvert / Headwall Material', value: escapeHTML(data.culvertMaterial) },
+                        { key: 'Gate Dimensions (per gate)', value: escapeHTML(data.gateDims) },
+                        { key: 'Invert Elevation (Inlet)', value: escapeHTML(data.invertInlet) },
+                        { key: 'Invert Elevation (Outlet)', value: escapeHTML(data.invertOutlet) },
+                        { key: 'Tide Gate Purpose', value: escapeHTML(data.gatePurpose) },
+                        { key: 'Installation Date', value: escapeHTML(data.installDate) },
+                        { key: 'Manufacturer/Model', value: escapeHTML(data.manufacturer) }
+                    ])}
+                    ${buildKVStacked('Other Background Information', escapeHTML(data.otherInfo))}
+                `)}
+
+                ${buildSection('4.0 Standard Operating Procedures', `
+                    ${buildKVGrid([
+                        { key: 'Operation Mode', value: escapeHTML(data.opMode) },
+                        { key: 'Telemetry / SCADA', value: escapeHTML(data.telemetry) }
+                    ])}
+                    ${data.telemetry === 'Yes' ? `
+                        <div style="border: 1px solid #ccc; padding: 12px; border-radius: 4px; background: #f9f9f9; margin-top: 8px; margin-bottom: 12px;">
+                            <h4 style="font-weight: 600; margin-bottom: 8px;">Telemetry Details</h4>
+                            ${buildKVGrid([
+                                { key: 'Sensor Data Collected', value: escapeHTML(data.sensorData) },
+                                { key: 'Alarm Thresholds', value: escapeHTML(data.telemetryAlarms) },
+                                { key: 'Remote Notification Thresholds', value: escapeHTML(data.telemetryNotify) },
+                                { key: 'Sensor Calibration Verification', value: escapeHTML(data.telemetryCalibrate) }
+                            ])}
+                        </div>
+                    ` : ''}
+                    ${buildKVStacked('Automatic/Passive Operation', escapeHTML(data.autoOp))}
+                    ${buildKVStacked('Manual Operation', escapeHTML(data.manualOp))}
+                    ${buildKVStacked('Fish Passage Protocol', escapeHTML(data.fishPassage))}
+                    ${buildKVStacked('Operating Triggers', escapeHTML(data.opTriggers))}
+                    ${buildKVStacked('Non-Emergency Notifications', escapeHTML(data.nonEmergencyNotify))}
+                `)}
+
+                ${buildSection('5.0 Inspection Schedule', `
+                    ${buildTable(
+                        ['Inspection Type', 'Frequency', 'Responsible Party'],
+                        [
+                            ['Routine (Visual)', data.inspectRoutineFreq, data.inspectRoutineParty],
+                            ['Major (Detailed)', data.inspectMajorFreq, data.inspectMajorParty],
+                            ['Post-Storm', data.inspectStormFreq, data.inspectStormParty]
+                        ]
+                    )}
+                `)}
+
+                ${buildSection('6.0 Routine Maintenance Procedures', `
+                    ${buildTable(['Task', 'Frequency', 'Procedure', 'Materials / Tools / Safety Gear'], data.maintenanceTasks)}
+                `)}
+                
+                ${buildSection('7.0 Emergency Action Plan (EAP)', `
+                    ${buildTable(['Condition / Failure', 'Detection Method', 'Immediate Action(s)', 'Notification Protocol'], data.eapItems)}
+                `)}
+
+                ${buildSection('8.0 Record Keeping and Logs', `
+                    ${buildKVGrid([
+                        { key: 'O&M Plan Location (Hard Copy)', value: escapeHTML(data.recStorageLocation) },
+                        { key: 'Operator Address', value: escapeHTML(data.recOperatorAddress) },
+                        { key: 'Inspection Log Location', value: escapeHTML(data.recInspLog) },
+                        { key: 'Maintenance Log Location', value: escapeHTML(data.recMaintLog) },
+                        { key: 'Operational Log Location', value: escapeHTML(data.recOpLog) },
+                        { key: 'Photo Log Location', value: escapeHTML(data.recPhotos) },
+                        { key: 'As-Built Drawings Location', value: escapeHTML(data.recDrawings) },
+                        { key: 'Manufacturer Manuals Location', value: escapeHTML(data.recManuals) }
+                    ])}
+                `)}
+            `;
+            
+            document.getElementById('report-content').innerHTML = content;
+        }
+
+        // --- Event Listeners ---
+        
+        // After-print listener to clean up classes
+        const afterPrint = () => {
+            document.body.classList.remove('printing-report', 'printing-checklist');
+            
+            // REMOVED faulty page restore logic
+            // if (pageBeforePrint) {
+            //     showPage(pageBeforePrint);
+            //     pageBeforePrint = null;
+            // }
+        };
+
+        // Add listeners for different browser types
+        if (window.matchMedia) {
+            const mediaQueryList = window.matchMedia('print');
+            mediaQueryList.addListener(mql => {
+                if (!mql.matches) {
+                    afterPrint();
+                }
+            });
+        }
+        
+        // Fallback for browsers that don't support matchMedia.addListener
+        window.onafterprint = afterPrint;
+        
+        // Set initial page
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('general');
+        });
+
+    </script>
+</body>
+</html>
