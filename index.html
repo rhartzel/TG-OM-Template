@@ -12,6 +12,14 @@
             overflow: hidden; /* Prevent full-page scrolling */
         }
         
+        /* --- MassBays Color Palette --- */
+        :root {
+            --mb-blue-dark: #0f2c52;       /* Deep Blue from text */
+            --mb-blue-dark-hover: #1e4370; /* Lighter shade for sidebar hover */
+            --mb-teal: #007da3;            /* Teal from wave logo */
+            --mb-teal-hover: #006080;      /* Darker teal for button hover */
+        }
+
         /* Form Styles */
         .form-input, .form-textarea, .form-select, .form-multiselect, .form-checkbox, .form-radio {
             display: block;
@@ -28,8 +36,8 @@
             outline: none;
         }
         .form-input:focus, .form-textarea:focus, .form-select:focus {
-            border-color: #4F46E5;
-            box-shadow: 0 0 0 1px #4F46E5;
+            border-color: var(--mb-teal);
+            box-shadow: 0 0 0 1px var(--mb-teal);
         }
         .form-label {
             display: block;
@@ -42,7 +50,7 @@
         .form-checkbox, .form-radio {
             width: 1rem;
             height: 1rem;
-            color: #4F46E5;
+            color: var(--mb-teal);
             border-color: #D1D5DB;
             border-radius: 0.25rem;
         }
@@ -50,7 +58,8 @@
             border-radius: 9999px;
         }
         .form-checkbox:focus, .form-radio:focus {
-            ring-color: #4F46E5;
+            ring-color: var(--mb-teal);
+            box-shadow: 0 0 0 3px rgba(0, 125, 163, 0.3); /* Teal shadow */
         }
 
         /* Button Styles */
@@ -69,15 +78,15 @@
             font-weight: 500;
             border-radius: 0.375rem;
             color: #ffffff;
-            background-color: #4F46E5;
+            background-color: var(--mb-teal);
         }
         .primary-btn:hover {
-            background-color: #4338CA;
+            background-color: var(--mb-teal-hover);
         }
         .primary-btn:focus {
             outline: 2px solid transparent;
             outline-offset: 2px;
-            box-shadow: 0 0 0 2px #4F46E5, 0 0 0 2px #ffffff;
+            box-shadow: 0 0 0 2px var(--mb-teal), 0 0 0 2px #ffffff;
         }
         
         .secondary-btn {
@@ -175,6 +184,23 @@
             color: #374151;
         }
         
+        /* --- Navigation Styles (Custom colors) --- */
+        /* Sidebar Link Default */
+        #sidebar a {
+            color: #e5e7eb; /* light gray */
+            transition: background-color 0.2s;
+        }
+        #sidebar a:hover {
+            background-color: var(--mb-blue-dark-hover);
+            color: #ffffff;
+        }
+        /* Sidebar Link Active */
+        #sidebar a.active-nav {
+            background-color: var(--mb-teal);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
         /* * --- PRINT STYLES --- 
          * This is the definitive print logic.
          */
@@ -232,9 +258,7 @@
                 visibility: hidden !important;
             }
 
-            /* * Logic for printing CHECKLIST
-             * This is the NEW, explicit logic.
-             */
+            /* Logic for printing CHECKLIST */
             body.printing-checklist #main-content {
                 overflow: visible !important;
                 height: auto !important;
@@ -291,19 +315,20 @@
 <body class="h-full">
     <div id="app-container" class="flex h-screen">
         <!-- Sidebar -->
-        <nav id="sidebar" class="w-64 bg-gray-800 text-white p-4 overflow-y-auto non-printable">
+        <!-- Updated Background Color to Deep Nautical Blue -->
+        <nav id="sidebar" class="w-64 text-white p-4 overflow-y-auto non-printable" style="background-color: var(--mb-blue-dark);">
             <h2 class="text-xl font-bold mb-6">O&M Plan Sections</h2>
             <ul class="space-y-2">
-                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700 active-nav" onclick="showPage('general')">1.0 General Information</a></li>
-                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('personnel')">2.0 Responsible Personnel</a></li>
-                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('structure')">3.0 Structure Details</a></li>
-                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('sop')">4.0 Operating Procedures</a></li>
-                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('inspection-schedule')">5.0 Inspection Schedule</a></li>
-                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('maintenance')">6.0 Routine Maintenance</a></li>
-                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('eap')">7.0 Emergency Action Plan</a></li>
-                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('records')">8.0 Record Keeping</a></li>
-                <li><hr class="border-gray-600 my-4"></li>
-                <li><a href="#" class="block py-2 px-3 rounded hover:bg-gray-700" onclick="showPage('checklist')">Inspection Checklist</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded active-nav" onclick="showPage('general')">1.0 General Information</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded" onclick="showPage('personnel')">2.0 Responsible Personnel</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded" onclick="showPage('structure')">3.0 Structure Details</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded" onclick="showPage('sop')">4.0 Operating Procedures</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded" onclick="showPage('inspection-schedule')">5.0 Inspection Schedule</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded" onclick="showPage('maintenance')">6.0 Routine Maintenance</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded" onclick="showPage('eap')">7.0 Emergency Action Plan</a></li>
+                <li><a href="#" class="block py-2 px-3 rounded" onclick="showPage('records')">8.0 Record Keeping</a></li>
+                <li><hr class="border-gray-500 my-4"></li>
+                <li><a href="#" class="block py-2 px-3 rounded" onclick="showPage('checklist')">Inspection Checklist</a></li>
             </ul>
         </nav>
 
@@ -311,10 +336,14 @@
         <div id="main-content" class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
             <header id="header" class="bg-white shadow-md p-4 flex justify-between items-center non-printable">
-                <h1 class="text-2xl font-bold text-gray-800">Tide Gate O&M Plan Developer</h1>
+                <div class="flex items-center">
+                     <!-- Logo: Direct raw link to GitHub image -->
+                     <img src="https://raw.githubusercontent.com/rhartzel/TG-OM-Template/main/massbays_logo.jpg" alt="MassBays Logo" class="h-12 mr-4" style="max-height: 3rem; width: auto;">
+                    <h1 class="text-2xl font-bold text-gray-800">Tide Gate O&M Plan Developer</h1>
+                </div>
                 <div class="space-x-2">
                     <button onclick="printChecklist()" class="secondary-btn">Print Checklist</button>
-                    <button onclick="showGenerateModal()" class="primary-btn bg-green-600 hover:bg-green-700 focus:ring-green-500">Generate O&M Plan</button>
+                    <button onclick="showGenerateModal()" class="primary-btn">Generate O&M Plan</button>
                 </div>
             </header>
 
@@ -353,7 +382,7 @@
                         </div>
                         <div>
                             <label for="owner" class="form-label">Owner (if different than Operator)</label>
-                            <input type="text" id="owner" class="form-input">
+                            <input type="text" id="owner" class="form-input" placeholder="Owner Name/Entity">
                         </div>
                         <div>
                             <label for="omPlanVersion" class="form-label">O&M Plan Version</label>
@@ -523,7 +552,7 @@
                         </div>
 
                         <!-- Telemetry Details -->
-                        <div id="telemetry-details" class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border rounded-lg bg-gray-50 hidden">
+                        <div id="telemetryDetails" class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border rounded-lg bg-gray-50 hidden">
                             <div>
                                 <label for="sensorData" class="form-label">Sensor Data Collected</label>
                                 <input type="text" id="sensorData" class="form-input" placeholder="e.g., Upstream water level, Gate position %">
@@ -536,9 +565,9 @@
                                 <label for="telemetryNotify" class="form-label">Remote Notification Thresholds</label>
                                 <input type="text" id="telemetryNotify" class="form-input" placeholder="e.g., Email on alarm">
                             </div>
-                            <div>
+                            <div class="md:col-span-2">
                                 <label for="telemetryCalibrate" class="form-label">Sensor Calibration Verification</label>
-                                <input type="text" id="telemetryCalibrate" class="form-input" placeholder="e.g., Annual check by technician">
+                                <input type="text" id="telemetryCalibrate" class="form-input" placeholder="How to verify sensors are calibrated">
                             </div>
                         </div>
 
@@ -661,6 +690,7 @@
                                     <td class="table-cell"><input type="text" class="form-input border-none" value="Scrapers, Putty Knife, PPE"></td>
                                     <td class="table-cell print-omit"><button class="danger-btn" onclick="removeRow('maint-5')">X</button></td>
                                 </tr>
+                                <!-- New Tasks -->
                                 <tr data-id="maint-6">
                                     <td class="table-cell"><input type="text" class="form-input border-none" value="Biofouling Control"></td>
                                     <td class="table-cell"><input type="text" class="form-input border-none" value="As needed"></td>
@@ -885,12 +915,12 @@
                             <h4 class="checklist-header">Channel Conditions</h4>
                             <h5 class="font-semibold text-gray-700">Upstream Channel (Land Side):</h5>
                             <div class="checklist-item"><input type="checkbox" id="chk_up_debris" class="form-checkbox"><label for="chk_up_debris">Debris: No significant blockages from trash, branches, or logs.</label></div>
-                            <div class="checklist-item"><input type="checkbox" id="chk_up_silt" class="form-checkbox"><label for="chk_up_silt">Siltation: No excessive sediment buildup blocking the invert.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_up_silt" class="form-checkbox"><label for="chk_up_silt">Siltation: No excessive sediment buildup blocking the gate invert.</label></div>
                             <label class="form-label mt-1">Notes:</label><textarea id="chk_up_notes" class="form-textarea" rows="2"></textarea>
                             
                             <h5 class="font-semibold text-gray-700 mt-3">Downstream Channel (Tide Side):</h5>
                             <div class="checklist-item"><input type="checkbox" id="chk_down_debris" class="form-checkbox"><label for="chk_down_debris">Debris: No blockages (e.B., sunken boats, large debris).</label></div>
-                            <div class="checklist-item"><input type="checkbox" id="chk_down_silt" class="form-checkbox"><label for="chk_down_silt">Siltation/Shoaling: No sandbars or sediment buildup.</label></div>
+                            <div class="checklist-item"><input type="checkbox" id="chk_down_silt" class="form-checkbox"><label for="chk_down_silt">Siltation/Shoaling: No sandbars or sediment buildup preventing full opening.</label></div>
                             <label class="form-label mt-1">Notes:</label><textarea id="chk_down_notes" class="form-textarea" rows="2"></textarea>
 
                             <h5 class="font-semibold text-gray-700 mt-3">Bank Stability:</h5>
@@ -1086,7 +1116,7 @@
         <div id="report-modal-content" class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <!-- Modal Header -->
             <div class="flex justify-between items-center p-4 border-b non-printable">
-                <h2 id="report-title" class="text-2xl font-bold">Tide Gate O&M Plan</h2>
+                 <h2 id="report-title" class="text-2xl font-bold">Tide Gate O&M Plan</h2>
                 <div class="space-x-2">
                     <button onclick="printReport()" class="primary-btn bg-blue-600 hover:bg-blue-700 focus:ring-blue-500">Print Report</button>
                     <button onclick="closeGenerateModal()" class="secondary-btn">Close</button>
@@ -1102,7 +1132,7 @@
 
     <script>
         let currentPage = 'general-section';
-        // let pageBeforePrint = null; // Store the page to restore - REMOVED, THIS WAS THE BUG
+        let pageBeforePrint = null;
         let contactsCounter = 5; // Start after default contacts
         let maintCounter = 9; // Start after default tasks
         let eapCounter = 6; // Start after default items
@@ -1387,6 +1417,7 @@
         }
 
         function printReport() {
+            // pageBeforePrint = null; // We are printing a modal, no need to restore
             document.body.classList.add('printing-report');
             
             // Use requestAnimationFrame to ensure styles are applied before print
@@ -1598,11 +1629,13 @@
         const afterPrint = () => {
             document.body.classList.remove('printing-report', 'printing-checklist');
             
-            // REMOVED faulty page restore logic
-            // if (pageBeforePrint) {
-            //     showPage(pageBeforePrint);
-            //     pageBeforePrint = null;
-            // }
+            // RESTORE page if we saved one
+            if (pageBeforePrint) {
+                // Must remove 'hidden' from the saved page ID
+                // Using the showPage logic is easiest, but we need to pass the ID without '-section'
+                showPage(pageBeforePrint.replace('-section', ''));
+                pageBeforePrint = null;
+            }
         };
 
         // Add listeners for different browser types
